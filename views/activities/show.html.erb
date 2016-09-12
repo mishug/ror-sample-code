@@ -1,0 +1,110 @@
+<%
+ @product.seo_settings
+  @title = @product.seo_settings.title unless @product.seo_settings.title.blank?
+  @description = @product.seo_settings.description unless @product.seo_settings.description.blank?
+  @keywords = @product.seo_settings.keywords unless @product.seo_settings.keywords.blank?
+else
+  @title = @product.name
+  @description = strip_tags(@product.description)
+end
+%>
+
+<article class="product box clearfix">
+  <header class="head clearfix">
+    <div class="left">
+      <%= display_photo @product %>
+    </div>
+
+    <div class="text">
+      <h1 class="title peak-right"><span><%= @product.name %></span></h1>
+      <div class="description clearfix">
+        <%= raw @product.description %>
+      </div>
+    </div>
+
+    <div class="price">
+      <p class="price-value">
+        <span class="pound">&pound;</span>
+        <%= display_price @product %>
+      </p>
+      <span class="per">per person</span>
+    <div class='tabs'>
+      <div class='tab'>
+        <% show_options_for_buying %>
+        <% buy_class = @show_options_for_buying ? "show-options-for-buying" : "" %>
+        <%= link_to "Buy now", add_product_party_planner_path(@product.id), :method => :post, :class => buy_class, :product_id => @product.id %>
+        <%= render :partial => "shared/itinerary/show_options_for_buying", :locals => {:product => @product} %>
+      </div>
+      <div class='tab'>
+        <%= recommend("Recommend to a friend", @product) %>
+      </div>
+      <div class='tab'>
+      
+        <%= request_information("Send me a proposal", @product) %>
+      </div>
+    </div>
+  </div>
+  </header>
+
+  <div class="details">
+    <ul>
+      <li class="label">Location:</li>
+      <li class="value"><%= @product.location.name %></li>
+
+      <li class="label">Minimum group size:</li>
+      <li class="value"><%= @product.minimum_group_size %></li>
+
+      <li class="label">Maximum group size:</li>
+      <li class="value"><%= @product.maximum_group_size %></li>
+
+      <li class="label">Duration:</li>
+      <li class="value"><%= @product.duration %></li>
+
+      <% if !@product.point_of_interest.blank? && !@product.distance_to_point_of_interest.blank? %>
+        <li class="label">Distance from <%= @product.point_of_interest %>:</li>
+        <li class="value"><%= @product.distance_to_point_of_interest %></li>
+      <% end %>
+
+      <li class="label">Additional clothing required:</li>
+      <li class="value"><%= @product.additional_clothing_required ? "Yes" : "No" %></li>
+    </ul>
+  </div>
+
+  <div class="main-wrapper">
+    <div class="main">
+      <div class="full-description clearfix">
+        <%= raw @product.full_description %>
+      </div>
+      <% if @product.gallery %>
+        <div class="gallery">
+          <ul id="carousel" class="jcarousel-skin-tango">
+            <% @product.gallery.photos.each do |photo| %>
+              <li><%= image_tag photo.cover_image.url %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- AddThis Button BEGIN -->
+      <div class="addthis_toolbox addthis_default_style ">
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+      <a class="addthis_button_tweet"></a>
+      <a class="addthis_button_pinterest_pinit"></a>
+      <a class="addthis_counter addthis_pill_style"></a>
+      </div>
+      <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51f7e6397058a913"></script>
+      <!-- AddThis Button END -->
+
+      <div class="add-to-party peak-right">
+        <%= link_to "Add this</br> to your</br> Party</br> Planner".html_safe, add_product_party_planner_path(@product.id), :method => :post, :class => buy_class, :product_id => @product.id %>
+      </div>
+
+            <!-- <p>&nbsp;</p> -->
+
+      <h1 class="title">Location</h1>
+
+      <%= image_tag "http://maps.google.com/maps/api/staticmap?size=575x325&sensor=false&zoom=10&center=#{@product.address.latitude},#{@product.address.longitude}" %>
+    </div>
+  </div>
+</article>

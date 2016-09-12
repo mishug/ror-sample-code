@@ -1,0 +1,24 @@
+<%= render :partial => "shared/#{@default_header}" %>
+
+<%= render('shared/party_type_menu', :type => @suitability) if @suitability %>
+
+<div class="products clearfix">
+	<aside class="filters">
+		<% if @show_available_categories %>
+			<%= available_categories(@suitability) %>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+		<% end %>
+		<%= category_locations(@suitability, @category) %>
+	</aside>
+
+	<section class="items">
+		<% @products.each do |product| %>
+	    	<%= render :partial => 'shared/product_short',  :locals => {:product => product } %>
+		<% end %>
+		<%= will_paginate @products, :params => {:path => eval("#{@suitability}_all_activities_path(:category => '#{@category.slug if @category}')")}, :renderer => CmsLinkRenderer %>
+	</section>
+</div>
+
+
+

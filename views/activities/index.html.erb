@@ -1,0 +1,22 @@
+<% content_for :header do %>
+  <%= render :partial => 'shared/layout/splash' %>
+<% end %>
+
+<div class="products clearfix">
+<%= render :partial => 'shared/activities_filter' %>
+
+    <section class="items mt-80">
+        <div class="container">
+            <% if !@products.empty? %>
+              <% @products.each do |product| %>
+                <%= render :partial => 'shared/activity_short',  :locals => {:product => product } %>
+              <% end %>
+              <%= will_paginate @products, :previous_label => "<<", :next_label => ">>"  %>
+            <% else %>
+              <!--h1 class="title">No results</h1>
+              <p>Sorry, we don't have any results for your current search.</p>
+      <p>Try to remove some filters or browse our <%= link_to "Stag Weekends", stag_weekends_page_path %> and <%= link_to "Hen Weekends", hen_weekends_page_path %> pages to create your perfect party.</p-->
+            <% end %>
+        </div>
+    </section>
+</div>

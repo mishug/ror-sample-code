@@ -1,0 +1,78 @@
+<% allow_buying = allow_buying.nil? ? true : allow_buying %>
+
+<%#*<article class="product-thumb box clearfix">%>
+<%#*<div class="picture">%>
+<%#= link_to activity_path(product.friendly_id) do %>
+<%#= display_photo product %>
+<%# end %>
+<%#*</div>%>
+<%#*<h1 class="title">%>
+<%#=  link_to product.name , activity_path(product.friendly_id) %> 
+<%#*</h1>%>
+<%#*<div class="description clearfix">%>
+<%#= raw product.description %>
+<%#*</div>%>
+<%# if allow_buying %>
+<%#*<div class="price thumb">%>
+<%#*<p class="price-value">%>
+<%# show_options_for_buying %>
+<%# buy_class = @show_options_for_buying ? "show-options-for-buying" : "" %>
+
+<%#= link_to add_product_party_planner_path(product.id), :method => :post, :class => buy_class, :product_id => product.id do %>
+<%#*<span class="pound">%>
+<%#= product.price.symbol %>
+<%#*</span>%>
+<%#= display_price product %>
+<%#*<span class="descr">Buy now</span>%>
+<%# end %>
+<%#*</p>%>
+<%#= render :partial => "shared/itinerary/show_options_for_buying", :locals => {:product => product} %>
+<%#*</div>%>
+<%#*<div class='tabs'>%>
+<%#*<div class="tab">%>
+<%#*<span class="icons-telephone"></span>%>
+<%#= request_information("Request callback", product) %>
+<%#*</div>%>
+<%#*<div class="tab">%>
+<%#*<span class="icons-email"></span>%>
+<%#= recommend("Email to a friend", product) %>
+<%#*</div>%>
+<%#*</div>%>
+<%# else %>
+<%#*<div class="price thumb">%>
+<%#*<p class="price-value">%>
+<%#*<span class="pound">%>
+<%#= product.price.symbol %>
+<%#*</span>%>
+<%#= display_price product %>
+<%#*</p>%>
+<%#*</div>%>
+<%# end %>
+<%#*</article>%>
+
+<div class="row">
+    <h3 class="section-head color-theme">
+        <%=  product.name %>
+    </h3>
+    <div class="col-md-4 activityDisplayImage">
+        <%= link_to activity_path(product.friendly_id) do %>
+          <%= display_photo product %>
+        <% end %>
+        <div class="price-tag"><%= product.price.symbol %><span class="ft-bg"><%= display_price product %> </span> Buy Now</div>
+    </div>
+    <div class="col-md-8 activityContent">
+        <p>
+            <%= raw product.description %>
+        </p>
+       
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-submit">
+                    <%= request_information("Request callback", product) %>
+                </button>  
+            </div>
+        </div>
+    </div>
+</div>
+
+
